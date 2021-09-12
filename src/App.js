@@ -87,7 +87,19 @@ class App extends Component {
     .predict(
       Clarifai.FACE_DETECT_MODEL,
       this.state.input)
-      .then(response => this.faceBox(this.calculateFaceLocation(response)))
+      .then(response => {
+        if (response) {
+          fetch('http://localhost:3000/image', {
+            method: 'put',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                id: this.state.user.id
+            })
+          });
+          
+        }
+        this.faceBox(this.calculateFaceLocation(response))
+      })
       .catch(err => console.log(err));
       
   }
@@ -112,7 +124,10 @@ class App extends Component {
         { route === 'home'
           ? <div>
               <Logo />
-              <Rank />
+              <Rank
+                name={this.state.user.name}
+                entries={this.state.user.entries}
+              />
               <ImageLinkForm 
                 onInputChange={this.onInputChange}
                 onSubmit={this.onSubmit}
