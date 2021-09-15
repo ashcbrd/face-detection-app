@@ -1,4 +1,4 @@
-# Facely - v1
+# Clariface - v1
 Final project for ZTM course
 
 1. Clone this repo
